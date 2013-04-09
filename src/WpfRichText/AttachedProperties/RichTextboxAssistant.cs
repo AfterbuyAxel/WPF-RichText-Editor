@@ -37,7 +37,7 @@ namespace WpfRichText
 
             if (!string.IsNullOrEmpty(newXAML))
             {
-                using (MemoryStream xamlMemoryStream = new MemoryStream(Encoding.ASCII.GetBytes(newXAML)))
+                using (MemoryStream xamlMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes(newXAML)))
                 {
                     ParserContext parser = new ParserContext();
                     parser.XmlnsDictionary.Add("", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
@@ -101,7 +101,7 @@ namespace WpfRichText
             using (MemoryStream ms = new MemoryStream())
             {
                 tr.Save(ms, DataFormats.Xaml);
-                string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
+				string xamlText = Encoding.UTF8.GetString(ms.ToArray());
                 SetBoundDocument(box, xamlText);
             }
         }
@@ -117,7 +117,7 @@ namespace WpfRichText
             using (MemoryStream ms = new MemoryStream())
             {
                 tr.Save(ms, DataFormats.Xaml);
-                string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
+				string xamlText = Encoding.UTF8.GetString(ms.ToArray());
                 SetBoundDocument(box, xamlText);
             }
         }

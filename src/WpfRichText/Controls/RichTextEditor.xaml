@@ -25,10 +25,12 @@
 		
 	</UserControl.Resources>
 	<Grid>
-		<DockPanel>
-
+		<Grid.RowDefinitions>
+			<RowDefinition Name="menuRow" Height="Auto" />
+			<RowDefinition Name="contentRow" Height="*" />
+		</Grid.RowDefinitions>
 			<!-- This tool bar contains all the editing buttons. -->
-			<ToolBar Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top">
+			<ToolBar Grid.Row="0"  Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top">
 				<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
 					<Image Source="Images/editcut.png"/>
 				</Button>
@@ -86,14 +88,8 @@
 					<Image Source="Images/paragraphdecreaseindentation.png"></Image>
 				</Button>
 			</ToolBar>
-
-			<StackPanel>
-				<RichTextBox Name="mainRTB" AcceptsTab="True" 
-                             asis:RichTextboxAssistant.BoundDocument="{Binding Path=Text, ElementName=uxRichTextEditor}"
-                             VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MinHeight="100" />
-				<!--<TextBox Text="{Binding Path=Text, ElementName=uxRichTextEditor}" Height="25" />-->
-			</StackPanel>
-
-		</DockPanel>
+		<ScrollViewer Grid.Row="1">
+			<RichTextBox Name="mainRTB" AcceptsTab="True" asis:RichTextboxAssistant.BoundDocument="{Binding Path=Text, ElementName=uxRichTextEditor}" MinHeight="100" />
+		</ScrollViewer>
 	</Grid>
 </UserControl>
