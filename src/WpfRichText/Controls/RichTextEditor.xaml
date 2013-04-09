@@ -15,7 +15,6 @@
 			<Setter Property="Padding" Value="1" />
 			<Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}" />
 		</Style>
-		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" />
 		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" x:Key="formatTextStyle">
 			<Setter Property="FontFamily" Value="Palatino Linotype" />
 			<Setter Property="FontSize" Value="18" />
@@ -24,11 +23,6 @@
 		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" x:Key="formatImageStyle">
 		</Style>
 		
-		<Style x:Key="BaseToolBar" TargetType="{x:Type ToolBar}">
-			<Setter Property="Visibility" Value="Visible"/>
-			<Setter Property="Height" Value="Auto" />
-		</Style>
-		<Style BasedOn="{StaticResource BaseToolBar}" TargetType="{x:Type ToolBar}" />
 	</UserControl.Resources>
 	<Grid>
 		<DockPanel>
