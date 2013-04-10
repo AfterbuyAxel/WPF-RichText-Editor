@@ -97,19 +97,23 @@ namespace WpfRichText
         /// String representing the attribute name to be searched for
         /// </param>
         /// <returns></returns>
-        public static string GetAttribute(XmlElement element, string attributeName)
+        internal static string GetAttribute(XmlElement element, string attributeName)
         {
 			if (!String.IsNullOrEmpty(attributeName) && element != null)
 			{
 				attributeName = attributeName.ToLower(CultureInfo.InvariantCulture);
 
-				for (int i = 0; i < element.Attributes.Count; i++)
-				{
-					if (element.Attributes[i].Name.ToLower(CultureInfo.InvariantCulture) == attributeName)
-					{
-						return element.Attributes[i].Value;
-					}
-				}
+				foreach (XmlAttribute item in element.Attributes)
+					if (item.Name.ToLower(CultureInfo.InvariantCulture) == attributeName)
+						return item.Value;
+
+				//for (int i = 0; i < element.Attributes.Count; i++)
+				//{
+				//	if (element.Attributes[i].Name.ToLower(CultureInfo.InvariantCulture) == attributeName)
+				//	{
+				//		return element.Attributes[i].Value;
+				//	}
+				//}
 			}
 
             return null;

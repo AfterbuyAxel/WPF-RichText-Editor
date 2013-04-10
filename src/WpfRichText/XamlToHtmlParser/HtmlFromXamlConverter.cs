@@ -240,6 +240,11 @@ namespace WpfRichText
                     case "RowSpan":
                         htmlWriter.WriteAttributeString("ROWSPAN", xamlReader.Value);
                         break;
+
+					// Hyperlink Attributes
+					case "NavigateUri" :
+						htmlWriter.WriteAttributeString("HREF", xamlReader.Value);
+						break;
                 }
 
                 if (css != null)
@@ -275,7 +280,7 @@ namespace WpfRichText
             for (int i = 0; i < values.Length; i++)
             {
                 double value;
-                if (double.TryParse(values[i], out value))
+				if (double.TryParse(values[i], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out value))
                 {
                     values[i] = Math.Ceiling(value).ToString(CultureInfo.InvariantCulture);
                 }
@@ -477,28 +482,30 @@ namespace WpfRichText
                         htmlElementName = "TR";
                         break;
                     case "TableCell" :
-                        htmlElementName = "TD";
+                        htmlElementName = "TD";						
                         break;
                     case "List" :
                         string marker = xamlReader.GetAttribute("MarkerStyle");
                         if (marker == null || marker == "None" || marker == "Disc" || marker == "Circle" || marker == "Square" || marker == "Box")
-                        {
-                            htmlElementName = "UL";
-                        }
-                        else
-                        {
+							htmlElementName = "UL";
+						else
                             htmlElementName = "OL";
-                        }
                         break;
                     case "ListItem" :
                         htmlElementName = "LI";
                         break;
+					case "Hyperlink" :
+						htmlElementName = "A";
+						break;
+					case "LineBreak" :
+						htmlWriter.WriteRaw("<BR />");
+						break;
                     default :
                         htmlElementName = null; // Ignore the element
                         break;
                 }
 
-                if (htmlWriter != null && htmlElementName != null)
+                if (htmlWriter != null && !String.IsNullOrEmpty(htmlElementName))
                 {
                     htmlWriter.WriteStartElement(htmlElementName);
 

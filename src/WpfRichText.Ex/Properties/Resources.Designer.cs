@@ -59,5 +59,32 @@ namespace WpfRichText.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///	&lt;head&gt;
+        ///		&lt;title&gt;New Bug Template&lt;/title&gt;
+        ///	&lt;/head&gt;
+        ///	&lt;body&gt;
+        ///		&lt;p&gt;
+        ///			&lt;span style=&quot;color:Red; font-weight:bold;&quot;&gt;TITEL:&lt;/span&gt;
+        ///			&lt;br /&gt;
+        ///			1. Fehlerbereich angeben (Afterbuy,Shop,MSG)
+        ///			&lt;br /&gt;
+        ///			2. Genaue Beschreibung des Bugs
+        ///		&lt;/p&gt;
+        ///		&lt;p&gt;
+        ///			&lt;span style=&quot;color:Red; font-weight:bold;&quot;&gt;PROBLEMBESCHREIBUNG:&lt;/span&gt;
+        ///			&lt;br /&gt;
+        ///			1. Genaue Angabe um das Problem zu sehen
+        ///			&lt;br /&gt;
+        ///			2. Genaue Beschreibung wie es zu dem Bug g [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HTMLPage1 {
+            get {
+                return ResourceManager.GetString("HTMLPage1", resourceCulture);
+            }
+        }
     }
 }

@@ -91,5 +91,6 @@
 		<ScrollViewer Grid.Row="1">
 			<RichTextBox Name="mainRTB" AcceptsTab="True" asis:RichTextboxAssistant.BoundDocument="{Binding Path=Text, ElementName=uxRichTextEditor}" MinHeight="100" />
 		</ScrollViewer>
+		
 	</Grid>
 </UserControl>

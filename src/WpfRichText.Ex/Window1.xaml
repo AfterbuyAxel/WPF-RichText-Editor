@@ -16,6 +16,8 @@
 			</Controls:RichTextEditor>
 			<Button Content="Get XAML" Margin="5" Height="30" 
                     Command="{Binding GetXamlCommand}"/>
+			<Button Content="Load Html" Margin="5" Height="30" 
+                    Command="{Binding LoadHtmlCommand}"/>
 		</StackPanel>
 
 	</Grid>

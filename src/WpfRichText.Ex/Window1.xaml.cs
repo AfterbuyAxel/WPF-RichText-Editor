@@ -32,14 +32,21 @@ namespace WpfRichText
     public class PageViewModel : ObservableBase
     {  
         public DelegateCommand GetXamlCommand { get; private set; }
+		public DelegateCommand LoadHtmlCommand { get; private set; }
 
         #region Constructor
         public PageViewModel()
         {
+			
             GetXamlCommand = new DelegateCommand(() =>
             {
                 MessageBox.Show(this.Text);
             });
+
+			LoadHtmlCommand = new DelegateCommand(() =>
+			{
+				this.Text = Properties.Resources.HTMLPage1;
+			});
         }
         #endregion
         
