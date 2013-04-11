@@ -163,6 +163,22 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Controls\Images\cut.png" />
+    <Resource Include="Controls\Images\page_copy.png" />
+    <Resource Include="Controls\Images\page_paste.png" />
+    <Resource Include="Controls\Images\text_align_center.png" />
+    <Resource Include="Controls\Images\text_align_justify.png" />
+    <Resource Include="Controls\Images\text_align_left.png" />
+    <Resource Include="Controls\Images\text_align_right.png" />
+    <Resource Include="Controls\Images\text_bold.png" />
+    <Resource Include="Controls\Images\text_indent.png" />
+    <Resource Include="Controls\Images\text_indent_remove.png" />
+    <Resource Include="Controls\Images\text_italic.png" />
+    <Resource Include="Controls\Images\text_list_bullets.png" />
+    <Resource Include="Controls\Images\text_list_numbers.png" />
+    <Resource Include="Controls\Images\text_underline.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

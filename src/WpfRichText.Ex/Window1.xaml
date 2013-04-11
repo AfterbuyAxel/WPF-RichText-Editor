@@ -7,13 +7,7 @@
 	<Grid>
 		<StackPanel>
 			<Label Content="WPF RichText Editor" FontWeight="Bold" FontSize="15" Margin="5"/>
-			<Controls:RichTextEditor Name="sampleEditor" Text="{Binding Text, Mode=TwoWay}" MaxHeight="200">
-				<Controls:RichTextEditor.Resources>
-					<Style TargetType="{x:Type ToolBar}">
-						<Setter Property="Visibility" Value="Visible" />
-					</Style>
-				</Controls:RichTextEditor.Resources>
-			</Controls:RichTextEditor>
+			<Controls:RichTextEditor Name="sampleEditor" Text="{Binding Text, Mode=TwoWay}" IsContextMenuEnabled="False" IsToolbarVisible="True" MaxHeight="200" />
 			<Button Content="Get XAML" Margin="5" Height="30" 
                     Command="{Binding GetXamlCommand}"/>
 			<Button Content="Load Html" Margin="5" Height="30" 

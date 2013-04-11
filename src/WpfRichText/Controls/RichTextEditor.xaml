@@ -23,74 +23,186 @@
 		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" x:Key="formatImageStyle">
 		</Style>
 		
+		<Style x:Key="contextStyle" TargetType="ContextMenu">
+			<Style.Triggers>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Visibility" Value="Collapsed" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="toolbarStyle" TargetType="ToolBar">
+			<Style.Triggers>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Visibility" Value="Collapsed" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<ContextMenu x:Key="rtbContextMenu" IsEnabled="{Binding Path=IsContextMenuEnabled, ElementName=uxRichTextEditor}" StaysOpen="False" Style="{DynamicResource contextStyle}">
+			<MenuItem Command="ApplicationCommands.Cut" ToolTip="Cut">
+				<MenuItem.Icon>
+					<Image Source="Images/cut.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="ApplicationCommands.Copy" ToolTip="Copy">
+				<MenuItem.Icon>
+					<Image Source="Images/page_copy.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="ApplicationCommands.Paste" ToolTip="Paste">
+				<MenuItem.Icon>
+					<Image Source="Images/page_paste.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="ApplicationCommands.Undo" ToolTip="Undo">
+				<MenuItem.Icon>
+					<Image Source="Images/editundo.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="ApplicationCommands.Redo" ToolTip="Redo">
+				<MenuItem.Icon>
+					<Image Source="Images/editredo.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+
+			<MenuItem Command="EditingCommands.ToggleBold" ToolTip="Bold">
+				<MenuItem.Icon>
+					<Image Source="Images/text_bold.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+				<MenuItem.Icon>
+					<Image Source="Images/text_italic.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+				<MenuItem.Icon>
+					<Image Source="Images/text_underline.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+				<MenuItem.Icon>
+					<Image Source="Images/charactergrowfont.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+				<MenuItem.Icon>
+					<Image Source="Images/charactershrinkfont.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+
+			<MenuItem Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+				<MenuItem.Icon>
+					<Image Source="Images/text_list_bullets.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+				<MenuItem.Icon>
+					<Image Source="Images/text_list_numbers.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+				<MenuItem.Icon>
+					<Image Source="Images/text_align_left.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+				<MenuItem.Icon>
+					<Image Source="Images/text_align_center.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.AlignRight" ToolTip="Align Right">
+				<MenuItem.Icon>
+					<Image Source="Images/text_align_right.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+				<MenuItem.Icon>
+					<Image Source="Images/text_align_justify.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+				<MenuItem.Icon>
+					<Image Source="Images/text_indent.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+				<MenuItem.Icon>
+					<Image Source="Images/text_indent_remove.png"/>
+				</MenuItem.Icon>
+			</MenuItem>
+		</ContextMenu>
 	</UserControl.Resources>
+	
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Name="menuRow" Height="Auto" />
 			<RowDefinition Name="contentRow" Height="*" />
 		</Grid.RowDefinitions>
-			<!-- This tool bar contains all the editing buttons. -->
-			<ToolBar Grid.Row="0"  Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top">
-				<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
-					<Image Source="Images/editcut.png"/>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
-					<Image Source="Images/editcopy.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
-					<Image Source="Images/editpaste.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
-					<Image Source="Images/editundo.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
-					<Image Source="Images/editredo.png"></Image>
-				</Button>
+		<!-- This tool bar contains all the editing buttons. -->
+		<ToolBar Grid.Row="0"  Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding Path=IsToolbarVisible, ElementName=uxRichTextEditor}" Style="{DynamicResource toolbarStyle}">
+			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
+				<Image Source="Images/cut.png"/>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
+				<Image Source="Images/page_copy.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
+				<Image Source="Images/page_paste.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
+				<Image Source="Images/editundo.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
+				<Image Source="Images/editredo.png"></Image>
+			</Button>
 
-				<Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-					<TextBlock>B</TextBlock>
-				</Button>
-				<Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
-					<TextBlock FontStyle="Italic">I</TextBlock>
-				</Button>
-				<Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
-					<TextBlock TextDecorations="Underline">U</TextBlock>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
-					<Image Source="Images/charactergrowfont.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
-					<Image Source="Images/charactershrinkfont.png"></Image>
-				</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+				<Image Source="Images/text_bold.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+				<Image Source="Images/text_italic.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+				<Image Source="Images/text_underline.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+				<Image Source="Images/charactergrowfont.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+				<Image Source="Images/charactershrinkfont.png"></Image>
+			</Button>
 
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
-					<Image Source="Images/listbullets.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
-					<Image Source="Images/listnumbering.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
-					<Image Source="Images/paragraphleftjustify.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
-					<Image Source="Images/paragraphcenterjustify.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
-					<Image Source="Images/paragraphrightjustify.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
-					<Image Source="Images/paragraphfulljustify.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
-					<Image Source="Images/paragraphincreaseindentation.png"></Image>
-				</Button>
-				<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
-					<Image Source="Images/paragraphdecreaseindentation.png"></Image>
-				</Button>
-			</ToolBar>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+				<Image Source="Images/text_list_bullets.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+				<Image Source="Images/text_list_numbers.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+				<Image Source="Images/text_align_left.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+				<Image Source="Images/text_align_center.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+				<Image Source="Images/text_align_right.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+				<Image Source="Images/text_align_justify.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+				<Image Source="Images/text_indent.png"></Image>
+			</Button>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+				<Image Source="Images/text_indent_remove.png"></Image>
+			</Button>
+		</ToolBar>
 		<ScrollViewer Grid.Row="1">
 			<RichTextBox Name="mainRTB" AcceptsTab="True" asis:RichTextboxAssistant.BoundDocument="{Binding Path=Text, ElementName=uxRichTextEditor}" MinHeight="100" />
 		</ScrollViewer>
-		
+
+
 	</Grid>
 </UserControl>

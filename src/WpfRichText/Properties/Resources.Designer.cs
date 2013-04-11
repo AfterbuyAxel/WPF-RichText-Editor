@@ -83,29 +83,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap editcopy {
+        internal static System.Drawing.Bitmap cut {
             get {
-                object obj = ResourceManager.GetObject("editcopy", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap editcut {
-            get {
-                object obj = ResourceManager.GetObject("editcut", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap editpaste {
-            get {
-                object obj = ResourceManager.GetObject("editpaste", resourceCulture);
+                object obj = ResourceManager.GetObject("cut", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +113,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap fileopen {
+        internal static System.Drawing.Bitmap page_copy {
             get {
-                object obj = ResourceManager.GetObject("fileopen", resourceCulture);
+                object obj = ResourceManager.GetObject("page_copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +123,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap filesave {
+        internal static System.Drawing.Bitmap page_paste {
             get {
-                object obj = ResourceManager.GetObject("filesave", resourceCulture);
+                object obj = ResourceManager.GetObject("page_paste", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +133,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap listbullets {
+        internal static System.Drawing.Bitmap text_align_center {
             get {
-                object obj = ResourceManager.GetObject("listbullets", resourceCulture);
+                object obj = ResourceManager.GetObject("text_align_center", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +143,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap listnumbering {
+        internal static System.Drawing.Bitmap text_align_justify {
             get {
-                object obj = ResourceManager.GetObject("listnumbering", resourceCulture);
+                object obj = ResourceManager.GetObject("text_align_justify", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +153,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paragraphcenterjustify {
+        internal static System.Drawing.Bitmap text_align_left {
             get {
-                object obj = ResourceManager.GetObject("paragraphcenterjustify", resourceCulture);
+                object obj = ResourceManager.GetObject("text_align_left", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +163,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paragraphdecreaseindentation {
+        internal static System.Drawing.Bitmap text_align_right {
             get {
-                object obj = ResourceManager.GetObject("paragraphdecreaseindentation", resourceCulture);
+                object obj = ResourceManager.GetObject("text_align_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +173,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paragraphfulljustify {
+        internal static System.Drawing.Bitmap text_bold {
             get {
-                object obj = ResourceManager.GetObject("paragraphfulljustify", resourceCulture);
+                object obj = ResourceManager.GetObject("text_bold", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +183,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paragraphincreaseindentation {
+        internal static System.Drawing.Bitmap text_indent {
             get {
-                object obj = ResourceManager.GetObject("paragraphincreaseindentation", resourceCulture);
+                object obj = ResourceManager.GetObject("text_indent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +193,9 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paragraphleftjustify {
+        internal static System.Drawing.Bitmap text_indent_remove {
             get {
-                object obj = ResourceManager.GetObject("paragraphleftjustify", resourceCulture);
+                object obj = ResourceManager.GetObject("text_indent_remove", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +203,39 @@ namespace WpfRichText.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paragraphrightjustify {
+        internal static System.Drawing.Bitmap text_italic {
             get {
-                object obj = ResourceManager.GetObject("paragraphrightjustify", resourceCulture);
+                object obj = ResourceManager.GetObject("text_italic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_list_bullets {
+            get {
+                object obj = ResourceManager.GetObject("text_list_bullets", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_list_numbers {
+            get {
+                object obj = ResourceManager.GetObject("text_list_numbers", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap text_underline {
+            get {
+                object obj = ResourceManager.GetObject("text_underline", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
