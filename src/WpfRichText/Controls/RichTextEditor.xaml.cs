@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -25,14 +27,27 @@ namespace WpfRichText
 		  new PropertyMetadata(string.Empty));
 
 		/// <summary></summary>
-		public static readonly DependencyProperty IsToolbarVisibleProperty =
-		  DependencyProperty.Register("IsToolbarVisible", typeof(bool), typeof(RichTextEditor),
+		public static readonly DependencyProperty IsToolBarVisibleProperty =
+		  DependencyProperty.Register("IsToolBarVisible", typeof(bool), typeof(RichTextEditor),
 		  new PropertyMetadata(true));
 
 		/// <summary></summary>
 		public static readonly DependencyProperty IsContextMenuEnabledProperty =
 		  DependencyProperty.Register("IsContextMenuEnabled", typeof(bool), typeof(RichTextEditor),
 		  new PropertyMetadata(true));
+
+		/// <summary></summary>
+		public static readonly DependencyProperty AvailableFontsProperty =
+		  DependencyProperty.Register("AvailableFonts", typeof(Collection<String>), typeof(RichTextEditor),
+		  new PropertyMetadata(new Collection<String>(
+			  new List<String>(4) 
+			  {
+				  "Arial",
+				  "Courier New",
+				  "Tahoma",
+				  "Times New Roman"
+			  }
+		)));
 
 		/// <summary></summary>
 		public RichTextEditor()
@@ -51,12 +66,12 @@ namespace WpfRichText
 		}
 
 		/// <summary></summary>
-		public bool IsToolbarVisible
+		public bool IsToolBarVisible
 		{
-			get { return (GetValue(IsToolbarVisibleProperty) as bool? == true); }
+			get { return (GetValue(IsToolBarVisibleProperty) as bool? == true); }
 			set
 			{
-				SetValue(IsToolbarVisibleProperty, value);
+				SetValue(IsToolBarVisibleProperty, value);
 			}
 		}
 
@@ -77,13 +92,26 @@ namespace WpfRichText
 			}
 		}
 
-		private void mainRTB_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		/// <summary></summary>
+		public Collection<String> AvailableFonts
 		{
-			if (!IsContextMenuEnabled)
+			get { return GetValue(AvailableFontsProperty) as Collection<String>; }
+			set
 			{
-				this.mainRTB.ContextMenu.Visibility = System.Windows.Visibility.Collapsed;
-				this.mainRTB.ContextMenu.IsEnabled = false;
+				SetValue(AvailableFontsProperty, value);
 			}
+		}
+
+
+		private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+		{
+			this.mainRTB.Selection.ApplyPropertyValue(ForegroundProperty, e.NewValue.ToString(CultureInfo.InvariantCulture));
+		}
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (this.mainRTB != null && this.mainRTB.Selection != null)
+				this.mainRTB.Selection.ApplyPropertyValue(FontFamilyProperty, e.AddedItems[0]);
 		}
 	}
 }

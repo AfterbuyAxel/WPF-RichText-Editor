@@ -12,11 +12,11 @@ using System.Windows.Data;
 namespace WpfRichText
 {
 	/// <summary></summary>
-	public static class RichTextboxAssistant
+	public static class RichTextBoxAssistant
     {
 		/// <summary></summary>
 		public static readonly DependencyProperty BoundDocument =
-           DependencyProperty.RegisterAttached("BoundDocument", typeof(string), typeof(RichTextboxAssistant),
+           DependencyProperty.RegisterAttached("BoundDocument", typeof(string), typeof(RichTextBoxAssistant),
            new FrameworkPropertyMetadata(null,
                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                OnBoundDocumentChanged)
@@ -125,13 +125,13 @@ namespace WpfRichText
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="dp"></param>
+		/// <param name="dependencyObject"></param>
 		/// <returns></returns>
-        public static string GetBoundDocument(DependencyObject dp)
+        public static string GetBoundDocument(DependencyObject dependencyObject)
         {
-			if (dp != null)
+			if (dependencyObject != null)
 			{
-				var html = dp.GetValue(BoundDocument) as string;
+				var html = dependencyObject.GetValue(BoundDocument) as string;
 				var xaml = string.Empty;
 
 				if (!string.IsNullOrEmpty(html))
@@ -144,15 +144,15 @@ namespace WpfRichText
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="dp"></param>
+		/// <param name="dependencyObject"></param>
 		/// <param name="value"></param>
-        public static void SetBoundDocument(DependencyObject dp, string value)
+		public static void SetBoundDocument(DependencyObject dependencyObject, string value)
         {
-			if (dp != null)
+			if (dependencyObject != null)
 			{
 				var xaml = value;
 				var html = HtmlFromXamlConverter.ConvertXamlToHtml(xaml, false);
-				dp.SetValue(BoundDocument, html);
+				dependencyObject.SetValue(BoundDocument, html);
 			}
         }
     }
