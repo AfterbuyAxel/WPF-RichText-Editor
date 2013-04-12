@@ -48,6 +48,7 @@ namespace WpfRichText
 				  "Times New Roman"
 			  }
 		)));
+		private TextRange textRange = null;
 
 		/// <summary></summary>
 		public RichTextEditor()
@@ -103,7 +104,7 @@ namespace WpfRichText
 		}
 
 
-		private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+		private void FontColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
 		{
 			this.mainRTB.Selection.ApplyPropertyValue(ForegroundProperty, e.NewValue.ToString(CultureInfo.InvariantCulture));
 		}
@@ -113,5 +114,50 @@ namespace WpfRichText
 			if (this.mainRTB != null && this.mainRTB.Selection != null)
 				this.mainRTB.Selection.ApplyPropertyValue(FontFamilyProperty, e.AddedItems[0]);
 		}
+
+		private void insertLink_Click(object sender, RoutedEventArgs e)
+		{
+			this.textRange = new TextRange(this.mainRTB.Selection.Start, this.mainRTB.Selection.End);
+			this.uriInputPopup.IsOpen = true;
+		}
+
+		private void uriCancelClick(object sender, RoutedEventArgs e)
+		{
+			e.Handled = true;
+			this.uriInputPopup.IsOpen = false;
+			this.uriInput.Text = string.Empty;
+		}
+
+		private void uriSubmitClick(object sender, RoutedEventArgs e)
+		{
+			e.Handled = true;
+			this.uriInputPopup.IsOpen = false;
+			this.mainRTB.Selection.Select(this.textRange.Start, this.textRange.End);
+			if (!string.IsNullOrEmpty(this.uriInput.Text))
+			{
+				this.textRange = new TextRange(this.mainRTB.Selection.Start, this.mainRTB.Selection.End);
+				Hyperlink hlink = new Hyperlink(this.textRange.Start, this.textRange.End);
+				hlink.NavigateUri = new Uri(this.uriInput.Text, UriKind.RelativeOrAbsolute);
+				this.uriInput.Text = string.Empty;
+			}
+			else
+				this.mainRTB.Selection.ClearAllProperties();			
+		}
+
+		private void uriInput_KeyPressed(object sender, KeyEventArgs e)
+		{
+			switch (e.Key)
+			{
+				case Key.Enter:
+					this.uriSubmitClick(sender, e);
+					break;
+				case Key.Escape:
+					this.uriCancelClick(sender, e);
+					break;
+				default:
+					break;
+			}
+		}
+
 	}
 }

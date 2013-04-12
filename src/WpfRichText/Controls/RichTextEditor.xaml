@@ -1,8 +1,10 @@
-﻿<UserControl x:Class="WpfRichText.RichTextEditor" x:Name="uxRichTextEditor"
+﻿<UserControl
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:xt="http://schemas.xceed.com/wpf/xaml/toolkit"
-			 xmlns:asis="clr-namespace:WpfRichText">
+			 xmlns:asis="clr-namespace:WpfRichText" 
+			x:Class="WpfRichText.RichTextEditor" x:Name="uxRichTextEditor"
+			 >
 	<UserControl.Resources>
 		<Style x:Key="BaseImage" TargetType="{x:Type Image}">
 			<Setter Property="Stretch" Value="None" />
@@ -16,31 +18,208 @@
 			<Setter Property="Padding" Value="1" />
 			<Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}" />
 		</Style>
-		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" x:Key="formatTextStyle">
-			<Setter Property="FontFamily" Value="Palatino Linotype" />
-			<Setter Property="FontSize" Value="18" />
-			<Setter Property="FontWeight" Value="Bold" />
+		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" x:Key="formatImageStyle"/>
+		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" x:Key="formatDropDownStyle">
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Padding" Value="0" />
 		</Style>
-		<Style BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}" x:Key="formatImageStyle">
+		<Style x:Key="buttonComboBoxStyle" BasedOn="{StaticResource BaseButton}" TargetType="{x:Type Button}">
+			<Setter Property="Width" Value="Auto" />
+			<Setter Property="Padding" Value="0" />
+		</Style>
+
+
+		<Style x:Key="contextStyle" TargetType="{x:Type ContextMenu}">
+			<Style.Triggers>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Visibility" Value="Collapsed" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="toolbarStyle" TargetType="{x:Type ToolBar}">
+			<Style.Triggers>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Visibility" Value="Collapsed" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="formatComboBoxStyle" TargetType="{x:Type ComboBox}">
+			<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+			<Setter Property="Background" Value="{x:Null}"/>
+			<Setter Property="BorderBrush" Value="{x:Null}"/>
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Margin" Value="0"/>
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+			<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+			<Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+			<Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+			<Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="MinHeight" Value="18"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ComboBox}">
+						<Grid SnapsToDevicePixels="True">
+							<Grid Grid.IsSharedSizeScope="True">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition SharedSizeGroup="ComboBoxButton" Width="Auto"/>
+								</Grid.ColumnDefinitions>
+								<Border x:Name="Background" Background="{TemplateBinding Background}"/>
+								<Border x:Name="SelectedContentBorder" Padding="3,0,0,0">
+									<ContentPresenter x:Name="ContentSite" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Content="{TemplateBinding SelectionBoxItem}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+								</Border>
+								<Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="2"/>
+								<ToggleButton x:Name="DropDownButton" BorderBrush="White" BorderThickness="1" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+									<ToggleButton.Style>
+										<Style TargetType="{x:Type ToggleButton}">
+											<Setter Property="MinWidth" Value="0"/>
+											<Setter Property="MinHeight" Value="0"/>
+											<Setter Property="Width" Value="Auto"/>
+											<Setter Property="Background" Value="Transparent"/>
+											<Setter Property="Focusable" Value="False"/>
+											<Setter Property="ClickMode" Value="Press"/>
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="{x:Type ToggleButton}">
+														<Grid Background="Transparent">
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="*"/>
+																<ColumnDefinition SharedSizeGroup="ComboBoxButton" Width="Auto"/>
+															</Grid.ColumnDefinitions>
+															<Border x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="1" SnapsToDevicePixels="True" Width="13">
+																<Path x:Name="ArrowDownPath" Data="M2.5,0L8.5,0 5.5,3z" Fill="Black" VerticalAlignment="Center"/>
+															</Border>
+														</Grid>
+														<ControlTemplate.Triggers>
+															<Trigger Property="IsEnabled" Value="False">
+																<Setter Property="BorderBrush" TargetName="Chrome" Value="{x:Null}"/>
+															</Trigger>
+															<MultiTrigger>
+																<MultiTrigger.Conditions>
+																	<Condition Property="IsMouseOver" Value="True"/>
+																	<Condition Property="IsChecked" Value="False"/>
+																</MultiTrigger.Conditions>
+																<Setter Property="Background" TargetName="Chrome" Value="#FFC2E0FF"/>
+															</MultiTrigger>
+															<Trigger Property="IsChecked" Value="True">
+																<Setter Property="BorderBrush" TargetName="Chrome" Value="#FF3399FF"/>
+															</Trigger>
+															<Trigger Property="IsPressed" Value="True">
+																<Setter Property="Background" TargetName="Chrome" Value="#FF99CCFF"/>
+															</Trigger>
+															<Trigger Property="IsEnabled" Value="False">
+																<Setter Property="Fill" TargetName="ArrowDownPath" Value="#FFB5B2B5"/>
+															</Trigger>
+														</ControlTemplate.Triggers>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</ToggleButton.Style>
+								</ToggleButton>
+								<TextBox x:Name="PART_EditableTextBox" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="1,1,0,1" MinHeight="18" Padding="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="Center">
+									<TextBox.Style>
+										<Style TargetType="{x:Type TextBox}">
+											<Setter Property="OverridesDefaultStyle" Value="True"/>
+											<Setter Property="AllowDrop" Value="True"/>
+											<Setter Property="MinWidth" Value="0"/>
+											<Setter Property="MinHeight" Value="0"/>
+											<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+											<Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+											<Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="{x:Type TextBox}">
+														<ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</TextBox.Style>
+								</TextBox>
+							</Grid>
+							<Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+								<Border x:Name="DropDownBorder" BorderBrush="{x:Null}" BorderThickness="0" Background="{TemplateBinding Background}" Margin="0" Padding="0">
+									<ScrollViewer x:Name="DropDownScrollViewer">
+										<Grid RenderOptions.ClearTypeHint="Enabled">
+											<Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+												<Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}" Height="{Binding ActualHeight, ElementName=DropDownBorder}" Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
+											</Canvas>
+											<ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"/>
+										</Grid>
+									</ScrollViewer>
+								</Border>
+							</Popup>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+								<Setter Property="Background" TargetName="Background" Value="#FFF7F7F7"/>
+								<Setter Property="Grid.ColumnSpan" TargetName="Background" Value="2"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="#FFB5B2B5"/>
+							</Trigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsKeyboardFocusWithin" Value="True"/>
+									<Condition Property="IsDropDownOpen" Value="False"/>
+									<Condition Property="IsEditable" Value="False"/>
+								</MultiTrigger.Conditions>
+								<Setter Property="Background" TargetName="SelectedContentBorder" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+							</MultiTrigger>
+							<Trigger Property="IsEditable" Value="True">
+								<Setter Property="Background" TargetName="DropDownButton" Value="{x:Null}"/>
+								<Setter Property="Visibility" TargetName="ContentSite" Value="Collapsed"/>
+								<Setter Property="Visibility" TargetName="PART_EditableTextBox" Value="Visible"/>
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="BorderBrush" TargetName="DropDownButton" Value="#FF3399FF"/>
+								<Setter Property="Background" TargetName="DropDownButton" Value="#FFC2E0FF"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="#FF3399FF"/>
+							</Trigger>
+							<Trigger Property="IsKeyboardFocusWithin" Value="True">
+								<Setter Property="BorderBrush" TargetName="DropDownButton" Value="#FF3399FF"/>
+								<Setter Property="Background" TargetName="DropDownButton" Value="#FFC2E0FF"/>
+								<Setter Property="BorderBrush" TargetName="Border" Value="#FF3399FF"/>
+							</Trigger>
+							<Trigger Property="HasItems" Value="False">
+								<Setter Property="MinHeight" TargetName="DropDownBorder" Value="95"/>
+							</Trigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsGrouping" Value="True"/>
+									<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="False"/>
+								</MultiTrigger.Conditions>
+								<Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+							</MultiTrigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsKeyboardFocusWithin" Value="True"/>
+									<Condition Property="IsDropDownOpen" Value="False"/>
+									<Condition Property="IsEditable" Value="False"/>
+								</MultiTrigger.Conditions>
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+							</MultiTrigger>
+							<Trigger Property="IsEditable" Value="True">
+								<Setter Property="Padding" Value="2"/>
+								<Setter Property="IsTabStop" Value="False"/>
+							</Trigger>
+							<Trigger Property="CanContentScroll" SourceName="DropDownScrollViewer" Value="False">
+								<Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+								<Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
 		</Style>
 		
-		<Style x:Key="contextStyle" TargetType="ContextMenu">
-			<Style.Triggers>
-				<Trigger Property="IsEnabled" Value="false">
-					<Setter Property="Visibility" Value="Collapsed" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
-
-		<Style x:Key="toolbarStyle" TargetType="ToolBar">
-			<Style.Triggers>
-				<Trigger Property="IsEnabled" Value="false">
-					<Setter Property="Visibility" Value="Collapsed" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
-
-		<ContextMenu x:Key="rtbContextMenu" IsEnabled="{Binding Path=IsContextMenuEnabled, ElementName=uxRichTextEditor}" StaysOpen="False" Style="{DynamicResource contextStyle}">
+		<ContextMenu x:Key="rtbContextMenu" IsEnabled="{Binding IsContextMenuEnabled, ElementName=uxRichTextEditor}" StaysOpen="False" Style="{DynamicResource contextStyle}">
 			<MenuItem Command="ApplicationCommands.Cut" ToolTip="Cut">
 				<MenuItem.Icon>
 					<Image Source="Images/cut.png"/>
@@ -135,78 +314,106 @@
 			</MenuItem>
 		</ContextMenu>
 	</UserControl.Resources>
-	
+
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Name="menuRow" Height="Auto" />
-			<RowDefinition Name="contentRow" Height="*" />
+			<RowDefinition x:Name="menuRow" Height="Auto" />
+			<RowDefinition x:Name="contentRow" Height="*" />
 		</Grid.RowDefinitions>
 		<!-- This tool bar contains all the editing buttons. -->
-		<ToolBar Grid.Row="0"  Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding Path=IsToolbarVisible, ElementName=uxRichTextEditor}" Style="{DynamicResource toolbarStyle}">			
+		<ToolBar Grid.Row="0"  x:Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding IsToolbarVisible, ElementName=uxRichTextEditor}" Style="{DynamicResource toolbarStyle}">
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
 				<Image Source="Images/cut.png"/>
 			</Button>
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
-				<Image Source="Images/page_copy.png"></Image>
+				<Image Source="Images/page_copy.png"/>
 			</Button>
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
-				<Image Source="Images/page_paste.png"></Image>
+				<Image Source="Images/page_paste.png"/>
 			</Button>
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
-				<Image Source="Images/editundo.png"></Image>
+				<Image Source="Images/editundo.png"/>
 			</Button>
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
-				<Image Source="Images/editredo.png"></Image>
+				<Image Source="Images/editredo.png"/>
 			</Button>
-
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-				<Image Source="Images/text_bold.png"></Image>
-			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
-				<Image Source="Images/text_italic.png"></Image>
-			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
-				<Image Source="Images/text_underline.png"></Image>
-			</Button>
+			<Separator/>
+			<Border Margin="2,0" Padding="0">
+				<ComboBox ToolTip="Select Font" ItemsSource="{Binding AvailableFonts, ElementName=uxRichTextEditor}" Width="100" IsEditable="False" IsReadOnly="True" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged"/>
+			</Border>
 			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
-				<Image Source="Images/charactergrowfont.png"></Image>
+				<Image Source="Images/charactergrowfont.png"/>
 			</Button>
 			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
-				<Image Source="Images/charactershrinkfont.png"></Image>
+				<Image Source="Images/charactershrinkfont.png"/>
 			</Button>
-			<xt:ColorPicker ShowDropDownButton="true" ToolTip="Select color" ShowAvailableColors="False" SelectedColorChanged="ColorPicker_SelectedColorChanged" Width="40" />
-			<Border Margin="2,0" Padding="0">
-				<ComboBox ToolTip="Select Font" ItemsSource="{Binding Path=AvailableFonts, ElementName=uxRichTextEditor}" Width="100" IsEditable="False" IsReadOnly="True" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged"/>
-			</Border>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
-				<Image Source="Images/text_list_bullets.png"></Image>
+			<Separator/>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+				<Image Source="Images/text_bold.png"/>
 			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
-				<Image Source="Images/text_list_numbers.png"></Image>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+				<Image Source="Images/text_italic.png"/>
 			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
-				<Image Source="Images/text_align_left.png"></Image>
+			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+				<Image Source="Images/text_underline.png"/>
 			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
-				<Image Source="Images/text_align_center.png"></Image>
+			<xt:ColorPicker ShowDropDownButton="true" ToolTip="Select font color" ShowAvailableColors="False" SelectedColorChanged="FontColorPicker_SelectedColorChanged" Width="40" />
+			<ComboBox Style="{DynamicResource formatComboBoxStyle}">
+				<ComboBoxItem IsSelected="True">
+					<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+						<Image Source="Images/text_align_left.png"/>
+					</Button>
+				</ComboBoxItem>
+				<ComboBoxItem>
+					<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+						<Image Source="Images/text_align_center.png"/>
+					</Button>
+				</ComboBoxItem>
+				<ComboBoxItem>
+					<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+						<Image Source="Images/text_align_right.png"/>
+					</Button>
+				</ComboBoxItem>
+				<ComboBoxItem>
+					<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+						<Image Source="Images/text_align_justify.png"/>
+					</Button>
+				</ComboBoxItem>
+			</ComboBox>
+			<Separator/>
+			<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+				<Image Source="Images/text_list_bullets.png"/>
 			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
-				<Image Source="Images/text_align_right.png"></Image>
+			<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+				<Image Source="Images/text_list_numbers.png"/>
 			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
-				<Image Source="Images/text_align_justify.png"></Image>
+			<Separator/>
+			<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+				<Image Source="Images/text_indent.png"/>
 			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
-				<Image Source="Images/text_indent.png"></Image>
+			<Button Style="{StaticResource buttonComboBoxStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+				<Image Source="Images/text_indent_remove.png"/>
 			</Button>
-			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
-				<Image Source="Images/text_indent_remove.png"></Image>
+			<Separator/>
+			<Button x:Name="insertLink" Style="{StaticResource buttonComboBoxStyle}" ToolTip="Insert link" Click="insertLink_Click">
+				<Grid>					
+					<Image Source="Images/world_link.png"/>
+					<Popup x:Name="uriInputPopup" StaysOpen="False" PlacementTarget="{Binding Parent, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBox x:Name="uriInput" Width="100" KeyUp="uriInput_KeyPressed" />
+							<Button x:Name="uriSubmit" Click="uriSubmitClick" ToolTip="OK">
+								<Image Source="Images/tick.png"/>
+							</Button>
+							<Button x:Name="uriCancel" Click="uriCancelClick" ToolTip="Cancel">
+								<Image Source="Images/cross.png"/>
+							</Button>
+						</StackPanel>
+					</Popup>
+				</Grid>
 			</Button>
 		</ToolBar>
 		<ScrollViewer Grid.Row="1">
-			<RichTextBox Name="mainRTB" AcceptsTab="True" asis:RichTextBoxAssistant.BoundDocument="{Binding Path=Text, ElementName=uxRichTextEditor}" MinHeight="100" />
+			<RichTextBox x:Name="mainRTB" AcceptsTab="True" asis:RichTextBoxAssistant.BoundDocument="{Binding Text, ElementName=uxRichTextEditor}" MinHeight="100" />
 		</ScrollViewer>
-
-
 	</Grid>
 </UserControl>
