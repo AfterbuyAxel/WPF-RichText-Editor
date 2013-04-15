@@ -8,7 +8,7 @@
 	<Grid>
 		<StackPanel>
 			<Label Content="WPF RichText Editor" FontWeight="Bold" FontSize="15" Margin="5"/>
-			<Controls:RichTextEditor x:Name="sampleEditor" Text="{Binding Text, Mode=TwoWay}" IsContextMenuEnabled="True" IsToolBarVisible="True" MaxHeight="200" />
+			<Controls:RichTextEditor x:Name="sampleEditor" Text="{Binding Text, Mode=TwoWay}" IsContextMenuEnabled="True" IsToolBarVisible="True" IsReadOnly="False" MaxHeight="200" />
 			<Button Content="Get XAML" Margin="5" Height="30" 
 				Command="{Binding GetXamlCommand}"/>
 			<Button Content="Load Html" Margin="5" Height="30" 

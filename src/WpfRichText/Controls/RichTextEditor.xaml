@@ -321,7 +321,7 @@
 			<RowDefinition x:Name="contentRow" Height="*" />
 		</Grid.RowDefinitions>
 		<!-- This tool bar contains all the editing buttons. -->
-		<ToolBar Grid.Row="0"  x:Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding IsToolbarVisible, ElementName=uxRichTextEditor}" Style="{DynamicResource toolbarStyle}">
+		<ToolBar Grid.Row="0"  x:Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding IsToolBarVisible, ElementName=uxRichTextEditor}" Style="{DynamicResource toolbarStyle}">
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
 				<Image Source="Images/cut.png"/>
 			</Button>
@@ -413,7 +413,7 @@
 			</Button>
 		</ToolBar>
 		<ScrollViewer Grid.Row="1">
-			<RichTextBox x:Name="mainRTB" AcceptsTab="True" asis:RichTextBoxAssistant.BoundDocument="{Binding Text, ElementName=uxRichTextEditor}" MinHeight="100" />
+			<RichTextBox x:Name="mainRTB" AcceptsTab="True" asis:RichTextBoxAssistant.BoundDocument="{Binding Text, ElementName=uxRichTextEditor}" MinHeight="100" IsReadOnly="{Binding IsReadOnly, ElementName=uxRichTextEditor}" ContextMenu="{DynamicResource rtbContextMenu}" />
 		</ScrollViewer>
 	</Grid>
 </UserControl>

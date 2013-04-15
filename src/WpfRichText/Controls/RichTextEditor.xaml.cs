@@ -37,6 +37,11 @@ namespace WpfRichText
 		  new PropertyMetadata(true));
 
 		/// <summary></summary>
+		public static readonly DependencyProperty IsReadOnlyProperty =
+		  DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(RichTextEditor),
+		  new PropertyMetadata(false));
+
+		/// <summary></summary>
 		public static readonly DependencyProperty AvailableFontsProperty =
 		  DependencyProperty.Register("AvailableFonts", typeof(Collection<String>), typeof(RichTextEditor),
 		  new PropertyMetadata(new Collection<String>(
@@ -48,6 +53,7 @@ namespace WpfRichText
 				  "Times New Roman"
 			  }
 		)));
+
 		private TextRange textRange = null;
 
 		/// <summary></summary>
@@ -85,11 +91,22 @@ namespace WpfRichText
 			}
 			set
 			{
-				if (value)
-					this.mainRTB.SetResourceReference(RichTextBox.ContextMenuProperty, "rtbContextMenu");
-				else
-					this.mainRTB.ContextMenu = null;
 				SetValue(IsContextMenuEnabledProperty, value);
+			}
+		}
+
+		/// <summary></summary>
+		public bool IsReadOnly
+		{
+			get { return (GetValue(IsReadOnlyProperty) as bool? == true); }
+			set
+			{
+				SetValue(IsReadOnlyProperty, value);
+				if (value == true)
+				{
+					SetValue(IsToolBarVisibleProperty, false);
+					SetValue(IsContextMenuEnabledProperty, false);
+				}
 			}
 		}
 
