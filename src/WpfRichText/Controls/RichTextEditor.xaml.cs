@@ -79,6 +79,7 @@ namespace WpfRichText
 			set
 			{
 				SetValue(IsToolBarVisibleProperty, value);
+				//this.mainToolBar.Visibility = (value == true) ? Visibility.Visible : Visibility.Collapsed;
 			}
 		}
 
@@ -102,11 +103,8 @@ namespace WpfRichText
 			set
 			{
 				SetValue(IsReadOnlyProperty, value);
-				if (value == true)
-				{
-					SetValue(IsToolBarVisibleProperty, false);
-					SetValue(IsContextMenuEnabledProperty, false);
-				}
+				SetValue(IsToolBarVisibleProperty, !value);
+				SetValue(IsContextMenuEnabledProperty, !value);
 			}
 		}
 
@@ -174,6 +172,12 @@ namespace WpfRichText
 				default:
 					break;
 			}
+		}
+
+		private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+		{
+			if (!this.IsContextMenuEnabled == true)
+				e.Handled = true;
 		}
 
 	}

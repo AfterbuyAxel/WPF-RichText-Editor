@@ -8,11 +8,14 @@
 	<Grid>
 		<StackPanel>
 			<Label Content="WPF RichText Editor" FontWeight="Bold" FontSize="15" Margin="5"/>
-			<Controls:RichTextEditor x:Name="sampleEditor" Text="{Binding Text, Mode=TwoWay}" IsContextMenuEnabled="True" IsToolBarVisible="True" IsReadOnly="False" MaxHeight="200" />
-			<Button Content="Get XAML" Margin="5" Height="30" 
-				Command="{Binding GetXamlCommand}"/>
-			<Button Content="Load Html" Margin="5" Height="30" 
-				Command="{Binding LoadHtmlCommand}"/>
+			<StackPanel Orientation="Horizontal">
+				<ToggleButton Margin="2" x:Name="hideToolbar" Content="Hide Toolbar" Checked="hideToolbar_Checked" Unchecked="hideToolbar_Unchecked" />
+				<ToggleButton Margin="2" x:Name="disableContextMenu" Content="Disable ContextMenu" Checked="disableContextMenu_Checked" Unchecked="disableContextMenu_Unchecked" />
+				<ToggleButton Margin="2" x:Name="setReadOnly"  Content="Set ReadOnly"  Checked="setReadOnly_Checked" Unchecked="setReadOnly_Unchecked"/>
+			</StackPanel>			
+			<Controls:RichTextEditor x:Name="sampleEditor" Text="{Binding Text, Mode=TwoWay}" IsContextMenuEnabled="True" IsToolBarVisible="True" IsReadOnly="False" MaxHeight="300" />
+			<Button Content="Get XAML" Margin="5" Height="30" Command="{Binding GetXamlCommand}"/>
+			<Button Content="Load Html" Margin="5" Height="30" Command="{Binding LoadHtmlCommand}"/>
 		</StackPanel>
 
 	</Grid>

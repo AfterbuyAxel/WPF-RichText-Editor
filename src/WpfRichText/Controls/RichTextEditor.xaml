@@ -28,23 +28,6 @@
 			<Setter Property="Padding" Value="0" />
 		</Style>
 
-
-		<Style x:Key="contextStyle" TargetType="{x:Type ContextMenu}">
-			<Style.Triggers>
-				<Trigger Property="IsEnabled" Value="false">
-					<Setter Property="Visibility" Value="Collapsed" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
-
-		<Style x:Key="toolbarStyle" TargetType="{x:Type ToolBar}">
-			<Style.Triggers>
-				<Trigger Property="IsEnabled" Value="false">
-					<Setter Property="Visibility" Value="Collapsed" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
-
 		<Style x:Key="formatComboBoxStyle" TargetType="{x:Type ComboBox}">
 			<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
 			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -218,8 +201,8 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-		
-		<ContextMenu x:Key="rtbContextMenu" IsEnabled="{Binding IsContextMenuEnabled, ElementName=uxRichTextEditor}" StaysOpen="False" Style="{DynamicResource contextStyle}">
+
+		<ContextMenu x:Key="rtbContextMenu" StaysOpen="False">
 			<MenuItem Command="ApplicationCommands.Cut" ToolTip="Cut">
 				<MenuItem.Icon>
 					<Image Source="Images/cut.png"/>
@@ -321,7 +304,19 @@
 			<RowDefinition x:Name="contentRow" Height="*" />
 		</Grid.RowDefinitions>
 		<!-- This tool bar contains all the editing buttons. -->
-		<ToolBar Grid.Row="0"  x:Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding IsToolBarVisible, ElementName=uxRichTextEditor}" Style="{DynamicResource toolbarStyle}">
+		<ToolBar Grid.Row="0"  x:Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding IsToolBarVisible, ElementName=uxRichTextEditor}">
+			<ToolBar.Style>
+				<Style TargetType="{x:Type ToolBar}">
+					<Style.Triggers>
+						<Trigger Property="IsEnabled" Value="false">
+							<Setter Property="Visibility" Value="Collapsed" />
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="true">
+							<Setter Property="Visibility" Value="Visible" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</ToolBar.Style>
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
 				<Image Source="Images/cut.png"/>
 			</Button>
@@ -413,7 +408,7 @@
 			</Button>
 		</ToolBar>
 		<ScrollViewer Grid.Row="1">
-			<RichTextBox x:Name="mainRTB" AcceptsTab="True" asis:RichTextBoxAssistant.BoundDocument="{Binding Text, ElementName=uxRichTextEditor}" MinHeight="100" IsReadOnly="{Binding IsReadOnly, ElementName=uxRichTextEditor}" ContextMenu="{DynamicResource rtbContextMenu}" />
+			<RichTextBox x:Name="mainRTB" AcceptsTab="True" asis:RichTextBoxAssistant.BoundDocument="{Binding Text, ElementName=uxRichTextEditor}" MinHeight="100" IsReadOnly="{Binding IsReadOnly, ElementName=uxRichTextEditor}" ContextMenu="{DynamicResource rtbContextMenu}" ContextMenuOpening="ContextMenu_ContextMenuOpening" />
 		</ScrollViewer>
 	</Grid>
 </UserControl>

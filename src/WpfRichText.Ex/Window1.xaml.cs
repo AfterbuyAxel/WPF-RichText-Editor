@@ -26,6 +26,36 @@ namespace WpfRichText
             InitializeComponent();
             this.DataContext = new PageViewModel();
         }
+
+		private void hideToolbar_Checked(object sender, RoutedEventArgs e)
+		{
+			this.sampleEditor.IsToolBarVisible = false;
+		}
+
+		private void disableContextMenu_Checked(object sender, RoutedEventArgs e)
+		{
+			this.sampleEditor.IsContextMenuEnabled = false;
+		}
+
+		private void setReadOnly_Checked(object sender, RoutedEventArgs e)
+		{
+			this.sampleEditor.IsReadOnly = true;
+		}
+
+		private void hideToolbar_Unchecked(object sender, RoutedEventArgs e)
+		{
+			this.sampleEditor.IsToolBarVisible = true;
+		}
+
+		private void disableContextMenu_Unchecked(object sender, RoutedEventArgs e)
+		{
+			this.sampleEditor.IsContextMenuEnabled = true;
+		}
+
+		private void setReadOnly_Unchecked(object sender, RoutedEventArgs e)
+		{
+			this.sampleEditor.IsReadOnly = false;
+		}
     }
 
     #region PageViewModel
