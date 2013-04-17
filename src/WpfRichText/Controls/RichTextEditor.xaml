@@ -391,15 +391,15 @@
 			</Button>
 			<Separator/>
 			<Button x:Name="insertLink" Style="{StaticResource buttonComboBoxStyle}" ToolTip="Insert link" Click="insertLink_Click">
-				<Grid>					
+				<Grid>
 					<Image Source="Images/world_link.png"/>
-					<Popup x:Name="uriInputPopup" StaysOpen="False" PlacementTarget="{Binding Parent, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-						<StackPanel Orientation="Horizontal">
-							<TextBox x:Name="uriInput" Width="100" KeyUp="uriInput_KeyPressed" />
-							<Button x:Name="uriSubmit" Click="uriSubmitClick" ToolTip="OK">
+					<Popup x:Name="uriInputPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=insertLink, Mode=OneWay}">
+						<StackPanel Orientation="Horizontal" Background="Silver">
+							<TextBox Margin="2,2,0,2" x:Name="uriInput" Width="100" KeyUp="uriInput_KeyPressed" />
+							<Button Margin="0,2" x:Name="uriSubmit" Click="uriSubmitClick" ToolTip="OK">
 								<Image Source="Images/tick.png"/>
 							</Button>
-							<Button x:Name="uriCancel" Click="uriCancelClick" ToolTip="Cancel">
+							<Button Margin="0,2,2,2" x:Name="uriCancel" Click="uriCancelClick" ToolTip="Cancel">
 								<Image Source="Images/cross.png"/>
 							</Button>
 						</StackPanel>
