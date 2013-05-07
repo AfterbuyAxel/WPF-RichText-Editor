@@ -3,20 +3,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         xmlns:Controls="clr-namespace:WpfRichText;assembly=WpfRichText" 
 		xmlns:System="clr-namespace:System;assembly=mscorlib" 
-		x:Class="WpfRichText.Window1"
-        Title="Window1" Height="313" Width="619">
-	<Grid>
-		<StackPanel>
-			<Label Content="WPF RichText Editor" FontWeight="Bold" FontSize="15" Margin="5"/>
-			<StackPanel Orientation="Horizontal">
-				<ToggleButton Margin="2" x:Name="hideToolbar" Content="Hide Toolbar" Checked="hideToolbar_Checked" Unchecked="hideToolbar_Unchecked" />
-				<ToggleButton Margin="2" x:Name="disableContextMenu" Content="Disable ContextMenu" Checked="disableContextMenu_Checked" Unchecked="disableContextMenu_Unchecked" />
-				<ToggleButton Margin="2" x:Name="setReadOnly"  Content="Set ReadOnly"  Checked="setReadOnly_Checked" Unchecked="setReadOnly_Unchecked"/>
-			</StackPanel>			
-			<Controls:RichTextEditor x:Name="sampleEditor" Text="{Binding Text, Mode=TwoWay}" IsContextMenuEnabled="True" IsToolBarVisible="True" IsReadOnly="False" MaxHeight="300" />
-			<Button Content="Get XAML" Margin="5" Height="30" Command="{Binding GetXamlCommand}"/>
-			<Button Content="Load Html" Margin="5" Height="30" Command="{Binding LoadHtmlCommand}"/>
+		xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic" 
+		x:Class="WpfRichText.Window1" 
+		ResizeMode="CanResizeWithGrip"
+        Title="Window1" Height="350" Width="650">
+	<Window.Resources>
+		<ControlTemplate x:Key="ToolbarTemplate1" TargetType="{x:Type ToolBar}"/>
+	</Window.Resources>
+	<Grid Background="WhiteSmoke">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<Label Grid.Row="0" Content="WPF RichText Editor" FontWeight="Bold" FontSize="15" Margin="5"/>
+		<StackPanel Grid.Row="1" Orientation="Horizontal">
+			<ToggleButton Margin="2" x:Name="hideToolbar" Content="Hide Toolbar" Checked="hideToolbar_Checked" Unchecked="hideToolbar_Unchecked" />
+			<ToggleButton Margin="2" x:Name="disableContextMenu" Content="Disable ContextMenu" Checked="disableContextMenu_Checked" Unchecked="disableContextMenu_Unchecked" />
+			<ToggleButton Margin="2" x:Name="setReadOnly"  Content="Set ReadOnly"  Checked="setReadOnly_Checked" Unchecked="setReadOnly_Unchecked"/>
 		</StackPanel>
-
+		<Controls:RichTextEditor x:Name="sampleEditor" 
+								Grid.Row="2"
+								Text="{Binding Text, Mode=TwoWay}" 
+								IsContextMenuEnabled="True" 
+								IsToolBarVisible="True" 
+								IsReadOnly="False"								
+								Background="White"
+								Foreground="Black"
+								BorderBrush="BLue"
+								 BorderThickness="1"
+			/>
+		<Button Grid.Row="3" Content="Get XAML" Margin="5" Height="30" Command="{Binding GetXamlCommand}"/>
+		<Button Grid.Row="4" Content="Load Html" Margin="5" Height="30" Command="{Binding LoadHtmlCommand}"/>
 	</Grid>
 </Window>

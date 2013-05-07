@@ -54,6 +54,7 @@ namespace WpfRichText
 			  }
 		)));
 
+
 		private TextRange textRange = null;
 
 		/// <summary></summary>
@@ -117,7 +118,6 @@ namespace WpfRichText
 				SetValue(AvailableFontsProperty, value);
 			}
 		}
-
 
 		private void FontColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
 		{

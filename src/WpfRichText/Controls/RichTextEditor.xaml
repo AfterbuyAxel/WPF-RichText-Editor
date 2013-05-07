@@ -3,6 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:xt="http://schemas.xceed.com/wpf/xaml/toolkit"
 			 xmlns:asis="clr-namespace:WpfRichText" 
+			xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Classic" 
 			x:Class="WpfRichText.RichTextEditor" x:Name="uxRichTextEditor"
 			 >
 	<UserControl.Resources>
@@ -296,27 +297,203 @@
 				</MenuItem.Icon>
 			</MenuItem>
 		</ContextMenu>
+		<Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
+			<Style.Triggers>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Visibility" Value="Collapsed" />
+				</Trigger>
+				<Trigger Property="IsEnabled" Value="true">
+					<Setter Property="Visibility" Value="Visible" />
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+		<ControlTemplate x:Key="ToolBarControlTemplate1" TargetType="{x:Type ToolBar}">
+			<Grid x:Name="Grid" Margin="0" SnapsToDevicePixels="True">
+				<Grid x:Name="OverflowGrid" HorizontalAlignment="Right">
+					<ToggleButton x:Name="OverflowButton" ClickMode="Press" FocusVisualStyle="{x:Null}" IsChecked="{Binding IsOverflowOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsEnabled="{TemplateBinding HasOverflowItems}">
+						<ToggleButton.Style>
+							<Style TargetType="{x:Type ToggleButton}">
+								<Setter Property="Background">
+									<Setter.Value>
+										<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+											<GradientStop Color="#FFE6E6E6" Offset="0"/>
+											<GradientStop Color="#FFD2D2D2" Offset="0.5"/>
+											<GradientStop Color="Gray" Offset="1"/>
+										</LinearGradientBrush>
+									</Setter.Value>
+								</Setter>
+								<Setter Property="MinHeight" Value="0"/>
+								<Setter Property="MinWidth" Value="0"/>
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="{x:Type ToggleButton}">
+											<Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="0" SnapsToDevicePixels="True">
+												<Canvas HorizontalAlignment="Right" Height="7" Margin="7,2,2,2" SnapsToDevicePixels="True" VerticalAlignment="Bottom" Width="6">
+													<Path Data="M1,1.5L6,1.5" Stroke="White"/>
+													<Path Data="M0,0.5L5,0.5" Stroke="{TemplateBinding Foreground}"/>
+													<Path Data="M0.5,4L6.5,4 3.5,7z" Fill="White"/>
+													<Path Data="M-0.5,3L5.5,3 2.5,6z" Fill="{TemplateBinding Foreground}"/>
+												</Canvas>
+											</Border>
+											<ControlTemplate.Triggers>
+												<Trigger Property="IsMouseOver" Value="True">
+													<Setter Property="Background" TargetName="Bd" Value="#FFB6BDD2"/>
+												</Trigger>
+												<Trigger Property="IsKeyboardFocused" Value="True">
+													<Setter Property="Background" TargetName="Bd" Value="#FFB6BDD2"/>
+												</Trigger>
+												<Trigger Property="IsEnabled" Value="False">
+													<Setter Property="Foreground" Value="#FFA0A0A0"/>
+												</Trigger>
+											</ControlTemplate.Triggers>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding}" Value="true">
+										<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</ToggleButton.Style>
+					</ToggleButton>
+					<Popup x:Name="OverflowPopup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsOverflowOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom" StaysOpen="False">
+						<Themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent">
+							<Border x:Name="ToolBarSubMenuBorder" BorderBrush="#FF666666" BorderThickness="1" Background="#FFF9F8F7" RenderOptions.ClearTypeHint="Enabled">
+								<ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel" KeyboardNavigation.DirectionalNavigation="Cycle" FocusVisualStyle="{x:Null}" Focusable="True" Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle" WrapWidth="200"/>
+							</Border>
+						</Themes:SystemDropShadowChrome>
+					</Popup>
+				</Grid>
+				<Border x:Name="MainPanelBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+					<Border.Style>
+						<Style TargetType="{x:Type Border}">
+							<Setter Property="Margin" Value="0,0,16,0"/>
+							<Setter Property="CornerRadius" Value="0"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding}" Value="true">
+									<Setter Property="CornerRadius" Value="0"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Border.Style>
+					<DockPanel KeyboardNavigation.TabIndex="1" KeyboardNavigation.TabNavigation="Local">
+						<Thumb x:Name="ToolBarThumb" Visibility="Collapsed"/>
+						<ContentPresenter x:Name="ToolBarHeader" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" HorizontalAlignment="Center" Margin="4,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+						<ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="True" Margin="0,1,2,2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+					</DockPanel>
+				</Border>
+			</Grid>
+			<ControlTemplate.Triggers>
+				<Trigger Property="IsOverflowOpen" Value="True">
+					<Setter Property="IsEnabled" TargetName="ToolBarThumb" Value="False"/>
+				</Trigger>
+				<Trigger Property="Header" Value="{x:Null}">
+					<Setter Property="Visibility" TargetName="ToolBarHeader" Value="Collapsed"/>
+				</Trigger>
+				<Trigger Property="ToolBarTray.IsLocked" Value="True">
+					<Setter Property="Visibility" TargetName="ToolBarThumb" Value="Collapsed"/>
+				</Trigger>
+				<Trigger Property="HasDropShadow" SourceName="OverflowPopup" Value="True">
+					<Setter Property="Margin" TargetName="Shdw" Value="0,0,5,5"/>
+					<Setter Property="SnapsToDevicePixels" TargetName="Shdw" Value="True"/>
+					<Setter Property="Color" TargetName="Shdw" Value="#71000000"/>
+				</Trigger>
+				<Trigger Property="Orientation" Value="Vertical">
+					<Setter Property="Margin" TargetName="Grid" Value="1,3,1,1"/>
+					<Setter Property="Style" TargetName="OverflowButton">
+						<Setter.Value>
+							<Style TargetType="{x:Type ToggleButton}">
+								<Setter Property="Background">
+									<Setter.Value>
+										<LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+											<GradientStop Color="#FFE6E6E6" Offset="0"/>
+											<GradientStop Color="#FFD2D2D2" Offset="0.5"/>
+											<GradientStop Color="Gray" Offset="1"/>
+										</LinearGradientBrush>
+									</Setter.Value>
+								</Setter>
+								<Setter Property="MinHeight" Value="0"/>
+								<Setter Property="MinWidth" Value="0"/>
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="{x:Type ToggleButton}">
+											<Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="0" SnapsToDevicePixels="True">
+												<Canvas HorizontalAlignment="Right" Height="6" Margin="2,7,2,2" SnapsToDevicePixels="True" VerticalAlignment="Bottom" Width="7">
+													<Path Data="M1.5,1L1.5,6" Stroke="White"/>
+													<Path Data="M0.5,0L0.5,5" Stroke="{TemplateBinding Foreground}"/>
+													<Path Data="M3.5,0.5L7,3.5 4,6.5z" Fill="White"/>
+													<Path Data="M3,-0.5L6,2.5 3,5.5z" Fill="{TemplateBinding Foreground}"/>
+												</Canvas>
+											</Border>
+											<ControlTemplate.Triggers>
+												<Trigger Property="IsMouseOver" Value="True">
+													<Setter Property="Background" TargetName="Bd" Value="#FFB6BDD2"/>
+												</Trigger>
+												<Trigger Property="IsKeyboardFocused" Value="True">
+													<Setter Property="Background" TargetName="Bd" Value="#FFB6BDD2"/>
+												</Trigger>
+												<Trigger Property="IsEnabled" Value="False">
+													<Setter Property="Foreground" Value="#FFA0A0A0"/>
+												</Trigger>
+											</ControlTemplate.Triggers>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding}" Value="true">
+										<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Setter.Value>
+					</Setter>
+					<Setter Property="Height" TargetName="ToolBarThumb" Value="10"/>
+					<Setter Property="Width" TargetName="ToolBarThumb" Value="Auto"/>
+					<Setter Property="Margin" TargetName="ToolBarThumb" Value="-1,-3,0,0"/>
+					<Setter Property="Padding" TargetName="ToolBarThumb" Value="5,6,6,1"/>
+					<Setter Property="Margin" TargetName="ToolBarHeader" Value="0,0,0,4"/>
+					<Setter Property="Margin" TargetName="PART_ToolBarPanel" Value="1,0,2,2"/>
+					<Setter Property="DockPanel.Dock" TargetName="ToolBarThumb" Value="Top"/>
+					<Setter Property="DockPanel.Dock" TargetName="ToolBarHeader" Value="Top"/>
+					<Setter Property="HorizontalAlignment" TargetName="OverflowGrid" Value="Stretch"/>
+					<Setter Property="VerticalAlignment" TargetName="OverflowGrid" Value="Bottom"/>
+					<Setter Property="Placement" TargetName="OverflowPopup" Value="Right"/>
+					<Setter Property="Margin" TargetName="MainPanelBorder" Value="0,0,0,11"/>
+					<Setter Property="Background">
+						<Setter.Value>
+							<LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+								<GradientStop Color="#FFE2E0DB" Offset="0"/>
+								<GradientStop Color="#FFEAE8E4" Offset="0.5"/>
+								<GradientStop Color="#FFD5D2CA" Offset="0.9"/>
+								<GradientStop Color="#FFDBD8D1" Offset="1"/>
+							</LinearGradientBrush>
+						</Setter.Value>
+					</Setter>
+				</Trigger>
+				<Trigger Property="IsEnabled" Value="False">
+					<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
 	</UserControl.Resources>
 
-	<Grid>
+	<Grid Background="{Binding BorderBrush, ElementName=uxRichTextEditor}">
 		<Grid.RowDefinitions>
 			<RowDefinition x:Name="menuRow" Height="Auto" />
 			<RowDefinition x:Name="contentRow" Height="*" />
 		</Grid.RowDefinitions>
-		<!-- This tool bar contains all the editing buttons. -->
-		<ToolBar Grid.Row="0"  x:Name="mainToolBar" ToolBarTray.IsLocked="True" DockPanel.Dock="Top" IsEnabled="{Binding IsToolBarVisible, ElementName=uxRichTextEditor}">
-			<ToolBar.Style>
-				<Style TargetType="{x:Type ToolBar}">
-					<Style.Triggers>
-						<Trigger Property="IsEnabled" Value="false">
-							<Setter Property="Visibility" Value="Collapsed" />
-						</Trigger>
-						<Trigger Property="IsEnabled" Value="true">
-							<Setter Property="Visibility" Value="Visible" />
-						</Trigger>
-					</Style.Triggers>
-				</Style>
-			</ToolBar.Style>
+		<ToolBar Grid.Row="0" Height="30"
+				x:Name="mainToolBar" 
+				ToolBarTray.IsLocked="True" 
+				DockPanel.Dock="Top" 
+				IsEnabled="{Binding IsToolBarVisible, ElementName=uxRichTextEditor}" 
+				Style="{DynamicResource ToolBarStyle}"
+				Background="{Binding Background, ElementName=uxRichTextEditor}"
+				Foreground="{Binding Foreground, ElementName=uxRichTextEditor}" 
+				BorderBrush="{Binding BorderBrush, ElementName=uxRichTextEditor}" 
+				BorderThickness="{Binding BorderThickness, ElementName=uxRichTextEditor}" 
+				 Template="{DynamicResource ToolBarControlTemplate1}">
 			<Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
 				<Image Source="Images/cut.png"/>
 			</Button>
@@ -334,7 +511,13 @@
 			</Button>
 			<Separator/>
 			<Border Margin="2,0" Padding="0">
-				<ComboBox ToolTip="Select Font" ItemsSource="{Binding AvailableFonts, ElementName=uxRichTextEditor}" Width="100" IsEditable="False" IsReadOnly="True" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged"/>
+				<ComboBox ToolTip="Select Font" 
+						ItemsSource="{Binding AvailableFonts, ElementName=uxRichTextEditor}" 
+						Width="100" 
+						IsEditable="False" 
+						IsReadOnly="True" 
+						SelectedIndex="0" 
+						SelectionChanged="ComboBox_SelectionChanged"/>
 			</Border>
 			<Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
 				<Image Source="Images/charactergrowfont.png"/>
@@ -407,8 +590,19 @@
 				</Grid>
 			</Button>
 		</ToolBar>
-		<ScrollViewer Grid.Row="1">
-			<RichTextBox x:Name="mainRTB" AcceptsTab="True" asis:RichTextBoxAssistant.BoundDocument="{Binding Text, ElementName=uxRichTextEditor}" MinHeight="100" IsReadOnly="{Binding IsReadOnly, ElementName=uxRichTextEditor}" ContextMenu="{DynamicResource rtbContextMenu}" ContextMenuOpening="ContextMenu_ContextMenuOpening" />
+		<ScrollViewer Grid.Row="1" Margin="0,1,0,0">
+			<RichTextBox x:Name="mainRTB" 
+							AcceptsTab="True" 
+							asis:RichTextBoxAssistant.BoundDocument="{Binding Text, ElementName=uxRichTextEditor}" 
+							MinHeight="100" 
+							IsReadOnly="{Binding IsReadOnly, ElementName=uxRichTextEditor}" 
+							ContextMenu="{DynamicResource rtbContextMenu}" 
+							ContextMenuOpening="ContextMenu_ContextMenuOpening"
+							Background="{Binding Background, ElementName=uxRichTextEditor}"
+							Foreground="{Binding Foreground, ElementName=uxRichTextEditor}"
+							BorderBrush="{Binding BorderBrush, ElementName=uxRichTextEditor}" 
+							BorderThickness="{Binding BorderThickness, ElementName=uxRichTextEditor}" 
+							/>
 		</ScrollViewer>
 	</Grid>
 </UserControl>
