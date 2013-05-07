@@ -489,7 +489,7 @@
 				DockPanel.Dock="Top" 
 				IsEnabled="{Binding IsToolBarVisible, ElementName=uxRichTextEditor}" 
 				Style="{DynamicResource ToolBarStyle}"
-				Background="{Binding Background, ElementName=uxRichTextEditor}"
+				Background="{Binding BorderBrush, ElementName=uxRichTextEditor}"
 				Foreground="{Binding Foreground, ElementName=uxRichTextEditor}" 
 				BorderBrush="{Binding BorderBrush, ElementName=uxRichTextEditor}" 
 				BorderThickness="{Binding BorderThickness, ElementName=uxRichTextEditor}" 

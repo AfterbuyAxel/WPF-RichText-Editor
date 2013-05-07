@@ -30,10 +30,9 @@
 								IsContextMenuEnabled="True" 
 								IsToolBarVisible="True" 
 								IsReadOnly="False"								
-								Background="White"
-								Foreground="Black"
-								BorderBrush="BLue"
-								 BorderThickness="1"
+								Background="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}"
+								Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+								 BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"
 			/>
 		<Button Grid.Row="3" Content="Get XAML" Margin="5" Height="30" Command="{Binding GetXamlCommand}"/>
 		<Button Grid.Row="4" Content="Load Html" Margin="5" Height="30" Command="{Binding LoadHtmlCommand}"/>
